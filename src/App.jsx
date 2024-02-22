@@ -19,6 +19,7 @@ function App() {
     lastName: { isValid: false, message: '' },
     id: { isValid: false, message: '' },
     email: { isValid: false, message: '' },
+    gender: { isValid: false, message: '' },
     birthDayDate: { isValid: false, message: '' }
   });
 
@@ -37,6 +38,7 @@ function App() {
       lastName: { isValid: false, message: '' },
       id: { isValid: false, message: '' },
       email: { isValid: false, message: '' },
+      gender: { isValid: false, message: '' },
       birthDayDate: { isValid: false, message: '' }
     });
   };
@@ -63,6 +65,10 @@ function App() {
       case 'email':
         isValid = validateEmail(value);
         message = isValid ? '' : 'דוא"ל לא תקין';
+        break;
+      case 'gender':
+        isValid = true;
+        message = '';
         break;
       case 'birthDayDate':
         isValid = validateBirthDate(value);
@@ -136,13 +142,13 @@ function App() {
 
     // Check if the user is above 18
     console.log(currentDate.getMonth() >= inputDate.getMonth());
-    console.log( currentDate.getDate() , inputDate.getDate());
+    console.log(currentDate.getDate(), inputDate.getDate());
 
     return (
       ageDifference > 18 ||
       (ageDifference === 18 &&
         currentDate.getMonth() > inputDate.getMonth() ||
-        currentDate.getMonth() === inputDate.getMonth()&&
+        currentDate.getMonth() === inputDate.getMonth() &&
         currentDate.getDate() >= inputDate.getDate())
     );
   }
@@ -229,7 +235,7 @@ function App() {
       </form>
       {isModalOpen &&
         <div className="modal">
-<h1>asas</h1>
+          <h3>היי {form.firstName} {form.lastName} הטופס נשלח בהצלחה</h3>
         </div>
       }
     </div>
