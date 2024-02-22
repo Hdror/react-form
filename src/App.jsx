@@ -3,6 +3,8 @@ import './App.css';
 
 function App() {
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -41,8 +43,6 @@ function App() {
 
   const handleChange = (event) => {
     const name = event.target.name;
-    console.log(name);
-    console.log(`${event.target.checked}`);
     const value = event.target.type === 'radio' ? event.target.id : event.target.value;
     let isValid = true;
     let message = '';
@@ -83,20 +83,20 @@ function App() {
 
     if (isFormValid()) {
       console.log('Form submitted:', form);
-    } else {
-      console.log('Form contains errors. Please fix them before submitting.');
+      setIsModalOpen(true)
     }
   };
 
 
   const checkValidName = (str) => {
+    //regex expression for name with hebrew letters only
     const reg = new RegExp('^[\u0590-\u05FF]+$')
     if (!reg.test(str) || str.length < 2) return false
     return true
   }
 
   const validateEmail = (email) => {
-    console.log(email);
+    //regex expression for valid email address
     var re = new RegExp('[/\S+@\S+\.\S+/]');
     return re.test(email);
   }
@@ -104,32 +104,45 @@ function App() {
   const isIsraeliIdNumber = (id) => {
     id = String(id).trim();
 
+    // Check if the ID length is greater than 9 or if it's not a number
     if (id.length > 9 || isNaN(id)) return false;
+
+    // Adding to the ID leading zeros if its length is less than 9
     id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
 
+    // Calculate the sum of the digits based on a specific formula
     const sum = id.split('').reduce((counter, digit, i) => {
+      // Multiply each digit by a factor (1 or 2) depending on its position
       const step = Number(digit) * ((i % 2) + 1);
+
+      // Add the result to the counter, adjusting if the result is greater than 9
       return counter + (step > 9 ? step - 9 : step);
     }, 0);
 
+    // Check if the sum is divisible by 10
     return sum % 10 === 0;
   }
 
   function validateBirthDate(birthDate) {
+    console.log('lijlijkh');
     // Create a Date object for the current date
     const currentDate = new Date();
-  
+
     // Create a Date object for the provided birth date
     const inputDate = new Date(birthDate);
-  
+
     // Calculate the difference in years
     const ageDifference = currentDate.getFullYear() - inputDate.getFullYear();
-  
+
     // Check if the user is above 18
+    console.log(currentDate.getMonth() >= inputDate.getMonth());
+    console.log( currentDate.getDate() , inputDate.getDate());
+
     return (
       ageDifference > 18 ||
       (ageDifference === 18 &&
-        currentDate.getMonth() >= inputDate.getMonth() &&
+        currentDate.getMonth() > inputDate.getMonth() ||
+        currentDate.getMonth() === inputDate.getMonth()&&
         currentDate.getDate() >= inputDate.getDate())
     );
   }
@@ -200,9 +213,9 @@ function App() {
               type="date"
               aria-label='תאריך לידה'
               required />
-                 {!validation['birthDayDate'].isValid && (
-                <span className="error-message">{validation['birthDayDate'].message}</span>
-              )}
+            {!validation['birthDayDate'].isValid && (
+              <span className="error-message">{validation['birthDayDate'].message}</span>
+            )}
           </label>
         </div>
         <div className="buttons-container">
@@ -214,6 +227,11 @@ function App() {
           <button onClick={clearForm} type='button' aria-label='איפוס טופס'>איפוס טופס</button>
         </div>
       </form>
+      {isModalOpen &&
+        <div className="modal">
+<h1>asas</h1>
+        </div>
+      }
     </div>
   );
 }
