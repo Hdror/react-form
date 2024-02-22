@@ -13,10 +13,11 @@ function App() {
   })
 
   const [validation, setValidation] = useState({
-    firstName: { isValid: true, message: '' },
-    lastName: { isValid: true, message: '' },
-    id: { isValid: true, message: '' },
-    email: { isValid: true, message: '' },
+    firstName: { isValid: false, message: '' },
+    lastName: { isValid: false, message: '' },
+    id: { isValid: false, message: '' },
+    email: { isValid: false, message: '' },
+    birthDayDate: { isValid: false, message: '' }
   });
 
   const clearForm = () => {
@@ -34,6 +35,7 @@ function App() {
       lastName: { isValid: true, message: '' },
       id: { isValid: true, message: '' },
       email: { isValid: true, message: '' },
+      birthDayDate: { isValid: true, message: '' },
     });
   };
 
@@ -61,6 +63,10 @@ function App() {
       case 'email':
         isValid = validateEmail(value);
         message = isValid ? '' : 'דוא"ל לא תקין';
+        break;
+      case 'birthDayDate':
+        isValid = validateBirthDate(value);
+        message = isValid ? '' : 'עליך להיות מעל גיל 18';
         break;
       default:
         break;
@@ -109,11 +115,28 @@ function App() {
     return sum % 10 === 0;
   }
 
+  function validateBirthDate(birthDate) {
+    // Create a Date object for the current date
+    const currentDate = new Date();
+  
+    // Create a Date object for the provided birth date
+    const inputDate = new Date(birthDate);
+  
+    // Calculate the difference in years
+    const ageDifference = currentDate.getFullYear() - inputDate.getFullYear();
+  
+    // Check if the user is above 18
+    return (
+      ageDifference > 18 ||
+      (ageDifference === 18 &&
+        currentDate.getMonth() >= inputDate.getMonth() &&
+        currentDate.getDate() >= inputDate.getDate())
+    );
+  }
+
   const isFormValid = () => {
     return Object.values(validation).every((field) => field.isValid);
   }
-
-
 
   const personalFormFields =
     [
@@ -147,7 +170,7 @@ function App() {
         <h3>מין</h3>
         <div className="gender-birthday-container">
           <div className="gender-container">
-            <label>זכר
+            <label className="gender-label">זכר
               <input
                 id='male'
                 checked={form.gender === 'male'}
@@ -157,7 +180,7 @@ function App() {
                 type="radio"
                 aria-label='זכר' />
             </label>
-            <label>נקבה
+            <label className="gender-label">נקבה
               <input
                 id='female'
                 checked={form.gender === 'female'}
@@ -177,6 +200,9 @@ function App() {
               type="date"
               aria-label='תאריך לידה'
               required />
+                 {!validation['birthDayDate'].isValid && (
+                <span className="error-message">{validation['birthDayDate'].message}</span>
+              )}
           </label>
         </div>
         <div className="buttons-container">
