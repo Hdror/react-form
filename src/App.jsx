@@ -31,11 +31,11 @@ function App() {
     });
 
     setValidation({
-      firstName: { isValid: true, message: '' },
-      lastName: { isValid: true, message: '' },
-      id: { isValid: true, message: '' },
-      email: { isValid: true, message: '' },
-      birthDayDate: { isValid: true, message: '' },
+      firstName: { isValid: false, message: '' },
+      lastName: { isValid: false, message: '' },
+      id: { isValid: false, message: '' },
+      email: { isValid: false, message: '' },
+      birthDayDate: { isValid: false, message: '' }
     });
   };
 
