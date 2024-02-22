@@ -82,3 +82,12 @@ h6 {
 .buttons-container button{
   padding: 10px 40px;
 }
+
+button{
+  cursor: pointer;
+}
+
+.submit-btn:disabled{
+  cursor: not-allowed;
+}
+
