@@ -189,26 +189,33 @@ function App() {
         <h3>מין</h3>
         <div className="gender-birthday-container">
           <div className="gender-container">
-            <label className="gender-label">זכר
-              <input
-                id='male'
-                checked={form.gender === 'male'}
-                name="gender"
-                onChange={handleChange}
-                placeholder='זכר'
-                type="radio"
-                aria-label='זכר' />
-            </label>
-            <label className="gender-label">נקבה
-              <input
-                id='female'
-                checked={form.gender === 'female'}
-                name="gender"
-                onChange={handleChange}
-                placeholder='נקבה'
-                type="radio"
-                aria-label='נקבה' />
-            </label>
+            <div className="radio-wrapper">
+              <label htmlFor='male' className="gender-label">זכר
+                <input
+                  className="male-select"
+                  id='male'
+                  checked={form.gender === 'male'}
+                  name="gender"
+                  onChange={handleChange}
+                  placeholder='זכר'
+                  type="radio"
+                  aria-label='זכר' />
+              </label>
+            </div>
+            <div className="radio-wrapper">
+              <label htmlFor='female' className="gender-label">נקבה
+                <input
+                  className="female-select"
+                  id='female'
+                  checked={form.gender === 'female'}
+                  name="gender"
+                  onChange={handleChange}
+                  placeholder='נקבה'
+                  type="radio"
+                  aria-label='נקבה' />
+              </label>
+            </div>
+
           </div>
           <label className="birthday-label">תאריך לידה
             <input
@@ -234,7 +241,7 @@ function App() {
         </div>
       </form>
       {isModalOpen &&
-        <div className="modal">
+        <div className="modal-container">
           <h3>היי {form.firstName} {form.lastName} הטופס נשלח בהצלחה</h3>
         </div>
       }
