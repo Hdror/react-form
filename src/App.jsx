@@ -24,6 +24,7 @@ function App() {
   });
 
   const clearForm = () => {
+    setIsModalOpen(false)
     setForm({
       firstName: '',
       lastName: '',
@@ -130,7 +131,6 @@ function App() {
   }
 
   function validateBirthDate(birthDate) {
-    console.log('lijlijkh');
     // Create a Date object for the current date
     const currentDate = new Date();
 
@@ -141,9 +141,6 @@ function App() {
     const ageDifference = currentDate.getFullYear() - inputDate.getFullYear();
 
     // Check if the user is above 18
-    console.log(currentDate.getMonth() >= inputDate.getMonth());
-    console.log(currentDate.getDate(), inputDate.getDate());
-
     return (
       ageDifference > 18 ||
       (ageDifference === 18 &&
